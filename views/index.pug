@@ -1,15 +1,15 @@
 extends layout
 
 block content
-  h1 My first MongoDB app
+  h1 我的第一个 MongoDB 应用
   hr
   if(authenticated)
-    p Welcome back,#{me.first}
-    a(href="/logout") Logout
+    p 欢迎回来,#{me.first}
+    a(href="/logout") 退出登录
   else
-    p Welcome new visitor!
+    p 欢迎新访客!
   ul
     li
-      a(href="/login") Login
+      a(href="/login") 登录
     li
-      a(href="/signup") Signup
+      a(href="/signup") 注册

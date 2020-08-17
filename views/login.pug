@@ -1,17 +1,17 @@
 extends layout
 block content
     if(signupEmail)
-        p Congratulations on signing up!Please login below.
+        p 恭喜您注册成功！请在下面登录！
     form(action="/login",method="POST")
         fieldset
-            legend Log in
+            legend 登录
             p
-                label Email
+                label 邮箱
                 input(name="user[email]",type="text",value=signupEmail)
             p
-                label Password
+                label 密码
                 input(name="user[password]",type="password")
             p
-                button Submit
+                button 提交
             p
-                a(href="/") Go back
+                a(href="/") 首页

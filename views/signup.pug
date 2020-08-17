@@ -2,20 +2,20 @@ extends layout
 block content
     form(action="/signup/",method="post")
         fieldset
-            legend Sign up
+            legend 注册
             p
-              label First
+              label 姓
               input(name="user[first]",type="text")
             p
-              label Last
+              label 名
               input(name="user[last]",type="text")
             p
-              label Email
+              label 邮箱
               input(name="user[email]",type="text")
             p
-              label Password
+              label 密码
               input(name="user[password]",type="text")
             p
-              button Submit
+              button 提交
             p
-                a(href="/") Go back
+                a(href="/") 首页
