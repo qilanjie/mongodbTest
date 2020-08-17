@@ -14,20 +14,24 @@
     <column id="7" parent="6" name="_id">
       <DataType>ObjectId(0)|12s</DataType>
     </column>
-    <column id="8" parent="6" name="user[email]">
+    <column id="8" parent="6" name="__v">
       <Position>1</Position>
-      <DataType>String(0)|12s</DataType>
+      <DataType>Integer|4s</DataType>
     </column>
-    <column id="9" parent="6" name="user[first]">
+    <column id="9" parent="6" name="user[email]">
       <Position>2</Position>
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="10" parent="6" name="user[last]">
+    <column id="10" parent="6" name="user[first]">
       <Position>3</Position>
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="11" parent="6" name="user[password]">
+    <column id="11" parent="6" name="user[last]">
       <Position>4</Position>
+      <DataType>String(0)|12s</DataType>
+    </column>
+    <column id="12" parent="6" name="user[password]">
+      <Position>5</Position>
       <DataType>String(0)|12s</DataType>
     </column>
   </database-model>

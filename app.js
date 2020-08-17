@@ -1,17 +1,15 @@
 const createError = require('http-errors');
-const express = require('express'), mongodb = require('mongodb');
+const express = require('express'), mongoose = require('mongoose');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const session = require('express-session');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const loginRouter = require('./routes/login');
-const signupRouter = require('./routes/signup');
+//const indexRouter = require('./routes/index');
+//const usersRouter = require('./routes/users');
 const app = express();
-//const bodyParser = require('body-parser');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,14 +17,12 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/login', loginRouter);
-app.use('/signup', signupRouter);
+//app.use('/', indexRouter);
+//app.use('/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
@@ -42,22 +38,41 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-// app.use(bodyParser());
-//app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(session({
     secret: 'my secret', resave: false,
     saveUninitialized: true
 }));
-const MongoClient = mongodb.MongoClient;
-const url = 'mongodb://localhost:27017';
-const dbName = 'my-website';
+app.use(function (req,res,next) {
+    if(req.session.loggedIn){
+        res.local('authenticated',true);
+        User.findById(req.session.loggedIn,function (err,doc) {
+            if(err) return next(err);
+            res.local('me',doc);
+            next();
 
-MongoClient.connect(url, {useUnifiedTopology: true}, function (err, client) {
+        });
+    }
+    else {
+        res.local('authenticated',false);
+        next();
+    }
 
-    if (err) throw err;
-    console.log('\033[96m + \033[39m connected to mongodb');
-    const db = client.db(dbName);
-    app.users = db.collection('users');
+})
+mongoose.connect('mongodb://127.0.0.1:27017/my-website', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+})
+var Schema = mongoose.Schema;
+User = mongoose.model('User', new Schema({
+    first: String,
+    last: String,
+    email: {type: String, unique: true},
+    password: {type: String, index: true}
+}));
+app.get('/', function (req, res, next) {
+    res.render('index', {authenticated: false});
 });
 
 module.exports = app;
